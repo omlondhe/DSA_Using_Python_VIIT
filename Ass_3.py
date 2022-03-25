@@ -1,107 +1,123 @@
-data: list = ["laptop", "wireless mouse", "wireless keyboard", "headphone"]
-# Pointers for not using pop() method
-# start_pointer: int = 0
-# end_pointer: int = len(data) - 1
+# Name: Om Londhe
+# Roll No.: 221092
+# GR. No.: 22120276
+
+class Student:
+    '''
+    Properties: 
+    id, name, age, marks for maths, science, english, total, percentage, status, grade.\n\n
+    Functions: 
+    1. setData()- To set the data for student (id, name, age, marks for maths, science, english)
+    2. calculateAcademicData()- To calculate total marks, percentage, status and grade.
+    '''
+    def addData(self):
+        '''
+        Asking user for id, name, age and marks
+        '''
+        id: int = -1
+        while id < 0:
+            inp: str = input("Enter student id (number):\t\t")
+            if not inp.isnumeric(): continue
+            id = int(inp)
+        
+        name: str = ""
+        while name.__len__() < 2:
+            inp: str = input("Enter student name (min: 2):\t\t")
+            if inp.__len__() < 2:
+                print("Student name must be at least 2 letters long.")
+                continue
+            name = inp
+        
+        age: int = -1
+        while age < 0:
+            inp: str = input("Enter student age:\t\t\t")
+            if not inp.isnumeric(): continue
+            age = int(inp)
+
+        maths_marks: int = -1
+        while maths_marks < 0 or maths_marks > 100:    
+            inp: str = input("Enter marks for Maths:\t\t\t")
+            if not inp.isnumeric(): continue
+            maths_marks = int(inp)
+        
+
+        science_marks: int = -1
+        while science_marks < 0 or science_marks > 100:    
+            inp: str = input("Enter marks for Science:\t\t")
+            if not inp.isnumeric(): continue
+            science_marks = int(inp)
+        
+
+        english_marks: int = -1
+        while english_marks < 0 or english_marks > 100:    
+            inp: str = input("Enter marks for English:\t\t")
+            if not inp.isnumeric(): continue
+            english_marks = int(inp)
+        
+        marks: map = {
+            "maths_marks": maths_marks,
+            "science_marks": science_marks,
+            "english_marks": english_marks
+        }
+
+        self.setData(id=id, name=name, age=age, marks=marks)
+        
+
+    def setData(self, id: int, name: str, age: int, marks: map):
+        self.id: int = id
+        self.name: str = name
+        self.age: int = age
+        self.marks: map = marks
 
 
-def display(data_structure: int):
-    global start_pointer, end_pointer
-    if data_structure == 1:
-        print("\nCurrent Stack")
-        for i in range(len(data) - 1, -1, -1):
-            print(data[i])
-        return
-    print("\nCurrent Queue")
-    print(*data)
+    def calculateAcademicData(self):
+        marks: map = self.marks
+        
+        self.total: int = marks["maths_marks"] + marks["english_marks"] + marks["science_marks"]
+        self.percentage: float = (self.total * 100) / 300
+        self.status: str = "Pass"
+        for _, mark in marks.items():
+            if mark <= 50: self.status = "Fail"
+        
+        self.grade: str = "No"
+        if self.percentage >= 75:
+            self.grade = "A"
+        elif 60 <= self.percentage < 75:
+            self.grade = "B"
+        elif 50 <= self.percentage < 60:
+            self.grade = "C" 
 
 
-# def display(data_structure: int):
-#     global start_pointer, end_pointer
-#     if data_structure == 1:
-#         print("\nCurrent Stack")
-#         for i in range(end_pointer, start_pointer - 1, -1):
-#             print(data[i])
-#         return
-#     print("\nCurrent Queue")
-#     for i in range(start_pointer, end_pointer + 1):
-#         print(data[i], end="    ")
-#     print()
+    def getData(self) -> map:
+        data: map = {
+            "id": self.id,
+            "name": self.name,
+            "age": self.age,
+            "marks": self.marks,
+            "total": self.total,
+            "percentage": self.percentage,
+            "status": self.status,
+            "grade": self.grade
+        }
+        return data
+
+    def showData(self):
+        data: map = self.getData()
+
+        print("\nID:\t\t", data["id"])
+        print("Name:\t\t", data["name"])
+        print("Age:\t\t", data["age"])
+        print("Math marks:\t", data["marks"]["maths_marks"])
+        print("Science marks:\t", data["marks"]["science_marks"])
+        print("English Marks:\t", data["marks"]["english_marks"])
+        print("Total:\t\t", data["total"])
+        print("Percentage:\t", data["percentage"])
+        print("Status:\t\t", data["status"])
+        print("Grade:\t\t", data["grade"])
 
 
-def showWelcomeMenu():
-    print("Which data structure you want to use?")
-    print("1.\tStack")
-    print("2.\tQueue")
-    print("3.\tExit")
-    print("Enter your choice:", end="\t")
 
-
-def showDataStructureMenu(data_structure: int):
-    print("Which operation you want to perform?")
-    print(f"1.\t{'Push' if data_structure == 1 else 'Enqueue'}")
-    print(f"2.\t{'Pop' if data_structure == 1 else 'Dequeue'}")
-    print("3.\tDisplay")
-    print("4.\tGo back")
-    print("Enter your choice:", end="\t")
-
-
-def insert(data_structure: int):
-    # global end_pointer    # uncomment to use pointers
-    if data_structure == 1:
-        data.append(input("What you want to push to the stack?\n"))
-        print("Data pushed!")
-    else:
-        data.append(input("What you want to enqueue to the queue?\n"))
-        print("Data inserted!")
-    # end_pointer += 1      # uncomment to use pointers
-    display(data_structure)
-
-
-def delete(data_structure: int):
-    if len(data) == 0:
-        print(f'{"Stack" if data_structure == 1 else "Queue"} is empty')
-        return
-    if data_structure == 1:
-        data.pop()
-        print("Data popped!")
-    else:
-        data.pop(0)
-        print("Queue dequeued!")
-    display(data_structure)
-
-
-# def deleteWithPointers(data_structure: int):
-#     if data_structure == 1:
-#         global end_pointer
-#         end_pointer -= 1
-#         print("Data popped!")
-#     else:
-#         global start_pointer
-#         start_pointer += 1
-#         print("Queue dequeued!")
-#     display(data_structure)
-
-
-while True:
-    showWelcomeMenu()
-    data_structure: int = int(input())
-
-    if data_structure == 1 or data_structure == 2:
-        while True:
-            showDataStructureMenu(data_structure)
-            operation: int = int(input())
-
-            if operation == 1:
-                insert(data_structure)
-            elif operation == 2:
-                delete(data_structure)
-            elif operation == 3:
-                display(data_structure)
-            elif operation == 4:
-                break
-            else:
-                print("Invalid operation.")
-    
-    elif data_structure == 3:
-        print("Closing the application!")
-        break
+student: Student = Student()
+student.addData()
+student.calculateAcademicData()
+student.showData()
